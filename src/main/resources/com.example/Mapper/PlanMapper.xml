@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.Mapper.PlanMapper">
+
+    <resultMap id="planResponseMap"
+               type="com.example.demo.Dto.PlanResponse">
+        <constructor>
+    <idArg column="id" javaType="java.lang.Long"/>
+    <arg column="name" javaType="java.lang.String"/>
+    <arg column="monthly_fee_fen"
+         javaType="java.lang.Integer"/>
+    <arg column="data_gb"
+         javaType="java.lang.Integer"/>
+</constructor>
+</resultMap>
+    
+    <sql id="cloumns">
+        id,name,monthly_fee_fen,data_gb
+
+    </sql>
+
+    <sql id="selectmaxmonthlyFeeFen">
+        <where> status = 'ON_SALE'
+            <if test="maxMonthlyFeeFen !=null">
+                and monthly_fee_fen &lt;#{maxMonthlyFeeFen}
+            </if>
+        </where>
+    </sql>
+
+    <select id="countOnSalePlans"
+            resultType="java.lang.Long">
+        SELECT
+<!--        <include refid="cloumns"/>-->
+        count(*)
+        FROM telecom_plan
+        <include refid="selectmaxmonthlyFeeFen"/>
+        ORDER BY id ASC
+    </select>
+    <select id="selectPlanByid" resultMap="planResponseMap">
+        select
+         <include refid="cloumns"/>
+        from telecom_plan
+        where id=#{id}
+        and status="ON_SALE"
+
+    </select>
+    <select id="selectOnSalePlans" resultMap="planResponseMap">
+        select
+        <include refid="cloumns"/>
+        from telecom_plan
+        <include refid="selectmaxmonthlyFeeFen"/>
+        order by id asc
+<!--        limit #{pagesize} offset #{start}-->
+
+    </select>
+
+</mapper>
