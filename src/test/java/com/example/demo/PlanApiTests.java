@@ -33,7 +33,7 @@ public class PlanApiTests {
 
 
     @Test
-    void shouldReturn400whenpageISone() throws Exception {
+    void shouldReturn400whenpageIsNegative() throws Exception {
         mockMvc.perform(
                 get("/api/plans")
                     .param("page", "-1")
