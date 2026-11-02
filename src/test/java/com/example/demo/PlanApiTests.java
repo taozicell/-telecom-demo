@@ -54,7 +54,7 @@ public class PlanApiTests {
     void shouldReturn400whenpageSizeIsNegative() throws Exception {
         mockMvc.perform(
                 get("/api/plans")
-                .param("page", "1").param("pageSize","-1").param("pageSize","2")
+                .param("page", "1").param("pageSize","-1")
 
         ).andExpect(status().isBadRequest());
     }
