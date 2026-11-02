@@ -40,5 +40,23 @@ public class PlanApiTests {
                     .param("pageSize","2")
            ).andExpect(status().isBadRequest());
     }
+
+    @Test
+    void shouldReturn400whenpageSizeIsZero() throws Exception {
+        mockMvc.perform(
+                get("/api/plans")
+                        .param("page","0").param("pageSize","2")
+
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldReturn400whenpageSizeIsNegative() throws Exception {
+        mockMvc.perform(
+                get("/api/plans")
+                .param("page", "-1").param("pageSize","2").param("pageSize","2")
+
+        ).andExpect(status().isBadRequest());
+    }
 }
 
